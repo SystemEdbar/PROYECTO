@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/indexx.css" >
+  <!-- Los iconos tipo Solid de Fontawesome-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+  <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  <title>MUNICIPALIDAD</title>
+    
+    
+  </head>
+  <body style="background: radial-gradient(50% 50%, #e7d7c1, #a78a7f); font: oblique bold 120% cursive;">
+        <script>
+            $(document).ready(function(){
+               $('.navbarContainer').load('navbar.html');
+               
+                    $('#btnMostrar').on("click", function(){
+                        $.ajax({
+                            url:"NewServlet",//servlet destino 
+                            dataType: "html", //tipo de respuesta
+                            data: "control=MOSTRARVISIT",//datos se envían al server
+                            method:"POST",
+                            success: function(respuesta){
+                                console.log(respuesta);
+                            $("#tablaPropia").html(respuesta);
+                            
+                            },
+                            error: function(objAjax, estado, excepcion){
+                                alert("error en la comunicación");
+                            }
+                        });
+                    });
+               });
+             
+               
+        </script>
+         <div class="navbarContainer"></div> 
+         <br/>
+         <div class="container-fluid">
+         <div class="container-fluid row" style=" font-size:30px;">
+             <br/>
+             <div class="col-12">
+                 <center><input type="button" id="btnMostrar" class="btn btn-success p-3 " value="Mostrar Denuncias"></center>
+            </div>
+         </div>
+         <br>
+
+            <div class="table-responsive-xl">
+                <table  class="table table-hover table-light" style="border-radius: 35px;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th >FECHA</th>
+                            <th >DENUNCIA</th>
+                         </tr>
+                    </thead>
+                    <tbody id="tablaPropia">
+
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+    </body>
+</html>

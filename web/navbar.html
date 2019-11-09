@@ -1,0 +1,218 @@
+<style>
+    .fondo{
+        background:#e7d7c1;
+    }
+</style>
+<nav class="navbar navbar-expand-lg navbar-light fondo">
+  <a class="navbar-brand " href="index.html" style="font-size: 40px;">Municipalidad DE Puerto Barrios</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <ul class="form-inline my-2 my-lg-0">
+    
+            <li class="nav-item dropdown" style="font: oblique bold 120% cursive; color: black;">
+                <a style="font: oblique bold 120% cursive; color: black;" class="nav-link dropdown-toggle col-3 mr-5" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Informacion
+                </a>
+                <div class="container-fluid" id="mens" style>
+                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a  class="dropdown-item btn btn-primary" style="font-size:20px;" href="VistaVisit.html"> <i class="fas fa-clipboard-list"></i> Denuncias </a>
+                        <a  class="dropdown-item btn btn-primary" style="font-size:20px;" href="Form.html"> <i class="fas fa-clipboard-list"></i> Formulario </a>
+                       </div>
+                </div>
+                
+            </li> 
+            <li class="nav-item dropdown " style="font: oblique bold 120% cursive; color: black;">
+
+                <a style="font: oblique bold 120% cursive; color: black;" class="nav-link dropdown-toggle col-3 mr-5" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   Usuarios
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size:15px;">
+                    <a  class="dropdown-item btn btn-primary" style="font-size:20px;" data-toggle="modal" data-target="#exampleModal"> <i class="fas fa-clipboard-list"></i> Iniciar Sesión </a>
+                    <a  class="dropdown-item btn btn-primary" style="font-size:20px;" data-toggle="modal" data-target="#exampleModal2"> <i class="fas fa-clipboard-list"></i> Registrarse </a>
+                </div>
+
+            </li> 
+    </ul>
+  </div>
+</nav>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+                                <script>
+                                  $(document).ready(function(){
+
+
+                                      $("#btnlogin").click(function(){
+                                                                                          
+                                          $.ajax({
+                                              type: "POST", //METODO POST
+                                              url: "NewServlet", //URL DESTINO
+                                              data: "control=VALIDAR&" + $("#form1").serialize(),
+                                              success: function(data)
+                                              {
+                                                   $("#iniciar").html(data);
+                                                   
+                                                   if(data==="1"){
+                                                       redireccionar();
+                                                   }
+                                              }
+                                          });
+                                      });
+
+                                  }); 
+                                  
+                                   function redireccionar(){
+                                       var url ="Perfil.html";
+                                       $(location).attr('href',url);
+                                      
+                                  }
+                              </script>
+                              
+            <form action="NewServlet" id="form1" method="post" >
+              <div class="modal-dialog text-center">
+                  <div class="col-sm-8 main-section">
+                      <div class="modal-content">
+                          <div class="col-12 user-img">
+                              <img src="imagenes/img/userr.png"/>
+                          </div>
+                              <div class="form-group" id="user-group">
+                                  <input type="text" style="border-radius: 35px 0px 35px 0px;" class="form-control" id="name" placeholder="Nombre de usuario" name="username" required/>
+                              </div>
+                              <div class="form-group" id="contrasena-group">
+                                  <input type="password" style="border-radius: 35px 0px 35px 0px;" class="form-control " id="pass" placeholder="Contraseña" name="password" required/>
+                              </div>
+                              <input type="button" id="btnlogin" style="border-radius: 35px 0px 35px 0px;" class="btn btn-primary mx-2 my-2 " value="Ingresar"><br>
+                              <div class="form-control d-none" id="iniciar">ESTADO</div>
+                      </div>
+                  </div>
+              </div>
+            </form>
+                              
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal 1 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <script>
+            $(document).ready(function(){
+                
+               $('#btnregistrar').on("click", function(){
+                   $.ajax({
+                    url:"NewServlet",//servlet destino 
+                    dataType: "html", //tipo de respuesta
+                    data: "control=INSERTUSER&"+ $("#form2").serialize(),//datos se envían al server
+                    method:"POST",
+                    success: function(respuesta){
+                        if(respuesta==="1"){ 
+                            mostrarMensajeExitosoo();
+                            ocultarMensajeExitosoo();
+                            limpiarFormularioo();    
+                        }else{
+                            mostrarMensajeErroor();
+                            ocultarMensajeErroor();
+                        }
+                    },
+                    error: function(objAjax, estado, excepcion){
+                        alert("error en la comunicación");
+                    }
+                });
+               });
+               
+            });
+    function mostrarMensajeExitosoo(){
+
+        $('#funciona').fadeIn(2000);
+        $('#funciona').fadeOut(2000);
+    }
+
+    function ocultarMensajeExitosoo(){
+        setTimeout(function() {
+           $("#funciona").fadeOut(500);
+          },1500);
+    }
+
+    function mostrarMensajeErroor(){
+        $('#nofunciona').fadeIn(2000);
+        $('#nofunciona').fadeOut(2000);
+    }
+
+    function ocultarMensajeErroor(){
+        setTimeout(function() {
+           $("#nofunciona").fadeOut(500);
+          },1500);
+    }
+
+         </script>                 
+                <form action="/NewServlet" id="form2" method="post">
+                    <div class="form-group">
+                        <label for="inputName" style="color:white " >DPI</label>
+                        <input style="border-radius: 35px 0px 35px 0px;" type="text" class="form-control" id="DPI" name="DPI" placeholder="Ingrese su Número de DPI"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" style="color:white " >Nombre</label>
+                        <input style="border-radius: 35px 0px 35px 0px;" type="text" class="form-control" id="NOMBRE" name="NOMBRE" placeholder="Ingrese su Nombre"/>
+                    </div>
+                     <div class="form-group">
+                        <label for="inputName" style="color:white " >Apellido</label>
+                        <input style="border-radius: 35px 0px 35px 0px;" type="text" class="form-control" id="APELLIDO" name="APELLIDO" placeholder="Ingrese su Apellido"/>
+                    </div>
+                     <div class="form-group">
+                        <label for="inputName" style="color:white " >Sexo</label>
+                        <span class="col-5"><input type="radio" class="_8esa" name="SEXO" value="Femenino" id="SEXO"><label class="_58mt" for="SEXO" style="color:white">Mujer</label></span>
+                        <span class="col-5"><input type="radio" class="_8esa" name="SEXO" value="Masculino" id="SEXO"><label class="_58mt" for="SEXO" style="color:white">Hombre</label></span>
+                     </div>
+                   
+                     <div class="form-group">
+                        <label for="inputName" style="color:white " >Nombre de Usuario</label>
+                        <input style="border-radius: 35px 0px 35px 0px;" type="text" class="form-control" id="USUARIO" name="USUARIO" placeholder="Ingrese su Nombre de Usuario"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" style="color:white" >Contraseña</label>
+                        <input style="border-radius: 35px 0px 35px 0px;" type="password" class="form-control" id="CONTRASENA" name="CONTRASENA"  placeholder="Ingrese su Contraseña"/>
+                    </div>
+                 
+                    <div class="row" style="position:relative;"> 
+                    <button style="border-radius: 35px 35px 35px 35px;" type="button"  class=" col-6 btn btn-danger" data-dismiss="modal">Close</button>
+                   <button style="border-radius: 35px 35px 35px 35px;" type="button" id="btnregistrar" class="col-6 btn btn-primary ">Enviar</button>
+                    </div>
+                    
+                </form>
+         
+            <div class="alert alert-success" id="funciona" role="alert" style="display:none;">
+                Registro Guardado Exitosamente!
+            </div>
+            <div class="alert alert-danger" id="nofunciona" role="alert" style="display:none;">
+                El Registro Fallo!
+            </div>
+
+      </div>
+    </div>
+  </div>
+</div>

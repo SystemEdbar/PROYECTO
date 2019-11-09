@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/indexx.css" >
+  <!-- Los iconos tipo Solid de Fontawesome-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+  <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  <title>MUNICIPALIDAD</title>
+    
+    
+  </head>
+  <body style="background: radial-gradient(50% 50%, #e7d7c1, #a78a7f); font: oblique bold 120% cursive;">
+        <script>
+            $(document).ready(function(){
+               $('.navbarContainer').load('navbarinc.html');
+               
+                    console.log("entro al ajax");
+                    $.ajax({
+                    url:"NewServlet",//servlet destino 
+                    dataType: "json", //tipo de respuesta
+                    data: "control=RECUPERAR",//datos se envían al server
+                    type:"POST",
+                    success: function(json){
+                        
+                        var dato = JSON.parse(json);
+                        for(var item of dato){
+                            $("#NOMBRE").val(item.Nombre +" "+item.Apellido);
+                            $("#DPII").val(item.DPI);
+                            $("#SEXO").val(item.Sexo);
+                            $("#USUARIO").val(item.Usuario);
+                        }
+                        console.log(dato);
+                    },
+                    error: function(objAjax, estado, excepcion){
+                        alert("error en la comunicación");
+                    }
+                });
+                    $('#btnMostrar').on("click", function(){
+                        $.ajax({
+                            url:"NewServlet",//servlet destino 
+                            dataType: "html", //tipo de respuesta
+                            data: "control=MOSTRARDEN&" + $("#Perfil").serialize(),//datos se envían al server
+                            method:"POST",
+                            success: function(respuesta){
+                                console.log(respuesta);
+                            $("#tablaPropia").html(respuesta);
+                            
+                            },
+                            error: function(objAjax, estado, excepcion){
+                                alert("error en la comunicación");
+                            }
+                        });
+                    });
+               });
+             
+               
+        </script>
+         <div class="navbarContainer"></div> 
+         <br/>
+         <div class="container-fluid">
+         <div class="container-fluid row" style=" font-size:30px;">
+             <div class="col-2">
+                 <img src="imagenes/img/userr.png"/>
+             </div>
+             <div class="col-7">
+                 <form action="NewServlet" name="Perfil" id="Perfil" method="POST">
+                    <div class="row">
+                    <p style="color:white; "> NOMBRE  </p><p style="color: transparent;">----</p>
+                    <input style="border-radius: 35px 0px 35px 0px; font-size:25px;" type="text" id="NOMBRE" name="NOMBRE" class="col-8 form-control mr-5" readonly="readonly"> 
+                    </div>
+                     <div class="row">
+                    <p style="color:white; "> DPI  </p><p style="color: transparent;">--------</p>
+                    <input style="border-radius: 35px 0px 35px 0px; font-size:25px;" type="text" id="DPII" name="DPII" class="col-8 form-control mr-5" readonly="readonlyz"> 
+                    </div>
+                    <div class="row">
+                    <p style="color:white; "> SEXO  </p><p style="color: transparent;">------</p>
+                    <input style="border-radius: 35px 0px 35px 0px; font-size:25px;" type="text" id="SEXO" name="SEXO" class="col-8 form-control mr-5" readonly="readonly"> 
+                    </div>
+                     <div class="row">
+                    <p style="color:white; "> USUARIO  </p><p style="color: transparent;">---</p>
+                    <input style="border-radius: 35px 0px 35px 0px; font-size:25px;" type="text" id="USUARIO" name="USUARIO" class="col-8 form-control mr-5" readonly="readonly"> 
+                    </div>
+                </form>
+             </div>
+             <br/>
+             
+             <div class="col-1">
+                 <input type="button" id="btnMostrar" class="btn btn-success p-3 " value="Mis Denuncias">
+            </div>
+         </div>
+         <br>
+
+            <div class="">
+                <table  class="table table-hover table-light" style="border-radius: 35px;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th >FECHA</th>
+                            <th >NOMBRE</th>
+                            <th >DPI</th>
+                            <th >MUNICIPIO</th>
+                            <th >DEPARTAMENTO</th>
+                            <th >RESIDENCIA</th>
+                            <th >TELEFONO</th>
+                            <th >DENUNCIA</th>
+                         </tr>
+                    </thead>
+                    <tbody id="tablaPropia">
+
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+    </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/css/indexx.css" >
+  <!-- Los iconos tipo Solid de Fontawesome-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+  <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  <script src="js/methods.js" type="text/javascript" ></script>
+    <title>MUNICIPALIDAD</title>
+    
+    
+  </head>
+  <body style="background: radial-gradient(50% 50%, #e7d7c1, #a78a7f); font: oblique bold 120% cursive;">
+
+  <script>
+            $(document).ready(function(){
+                $.ajax({
+                    url:"NewServlet",//servlet destino 
+                    dataType: "json", //tipo de respuesta
+                    data: "control=RECUPERAR",//datos se envían al server
+                    type:"POST",
+                    success: function(json){
+                        
+                        var dato = JSON.parse(json);
+                        for(var item of dato){
+                            $("#NOMBRE").val(item.Nombre +" "+item.Apellido);
+                            $("#DPI").val(item.DPI);
+                        }
+                        console.log(dato);
+                    },
+                    error: function(objAjax, estado, excepcion){
+                        alert("error en la comunicación");
+                    }
+                });
+               $('.navbarContainer').load('navbarinc.html');
+               
+               $('#btnGuardar').on("click", function(){
+                   guardarAlumno();
+               });
+               
+            }); 
+          
+  </script>
+
+    <div class="navbarContainer"></div> 
+    <br>
+    <form action="/NewServlet" name="regisro" id="registro" method="POST">
+           <div class="container-fluid">
+                <div class="row col-12 justify-content-center">
+
+                    <h1   class="align-self-center" style="  color:white; ">Municipalida de Puerto Barrios </h1>
+                    <img class="" src="imagenes/PUERTO.png" width="90">
+                </div>
+            <br>
+                <div class="row col-12 justify-content-center">
+
+                    <p class="col-8"></p> <p style="color:white; "> Puerto Barrios:  </p><p style="color: transparent;">----</p>
+                    <input style="border-radius: 35px 0px 35px 0px;" type="date" id="FECHA" name="FECHA"  placeholder="día" class="col-2 form-control mr-5" > 
+                </div>
+            <div class="row  justify-content-start">
+                <p class="col-2"></p>    <p class="col-10" style="color:white; ">Licenciado</p>
+                <p class="col-2"></p>   <p class="col-10" style="color:white;">Hugo Sarceño</p>
+                <p class="col-2"></p><p class="col-10" style="color:white; ">Alcalde Municipal</p>
+
+            </div>
+
+            <div class="row justify-content-start">
+             <p class="col-2 p-4"></p>    <p class="col-1" style="color:white; ">Yo</p>  
+             <input style="border-radius: 35px 0px 35px 0px;"  type="text" id="NOMBRE" name="NOMBRE"  placeholder="Nombre de la persona" class="col-8 form-control " readonly="readonly">
+            </div>
+            <div class="row justify-self-start">
+                <p class="col-2 p-4"></p> <p class="col-2"  style="color:white; ">Quien me identifico con mi No de DPI:</p> <p style="color:transparent">--</p>
+                <input style="border-radius: 35px 0px 35px 0px;" type="text" id="DPI" name="DPI" placeholder="Número de DPI" class="col-2 form-control" readonly="readonly">
+                <p style="color:transparent" >--------------</p> <p style="color:white; ">Número de Teléfono</p> <p style="color:transparent">---------</p>
+                <input style="border-radius: 35px 0px 35px 0px;" type="text" id="TELEFONO" name="TELEFONO" placeholder="No de Telefono" class="col-2 form-control">
+
+            </div>
+
+            <div class="row justify-content-start" >
+                <p class="col-2 p-4"></p> <p class="col-1"  style="color:white; ">Extendido en:</p>
+                 <input style="border-radius: 35px 0px 35px 0px;" type="text" id="MUNICIPIO" name="MUNICIPIO"  placeholder="Municipio" class="col-3 form-control" >
+                 <p class="col-1"></p><p style="color:white; ">Departamento</p> <p style="color:transparent">--</p>
+                 <input style="border-radius: 35px 0px 35px 0px;" type="text" id="DEPARTAMENTO" name="DEPARTAMENTO"  placeholder="Departamento" class="col-3 form-control" >       
+
+            </div>
+
+            <div class="row justify-content-start">
+                <p class="col-2 p-4" ><p class="col-3" style="color:white; ">Dirección para recibir notificación</p>
+                <input style="border-radius: 35px 0px 35px 0px;" type="text" id="RESIDENCIA" name="RESIDENCIA" placeholder="Dirección de recidencia" class="col-6 form-control" >
+
+            </div>
+            <div class="row align-self-start">
+                <p class="col-2"></p>   <p class="col-5"  style="color:white; ">Atentamente me dirijo a usted para presentar la siguiente Denuncia</p>
+
+            </div>
+            <div class="row align-self-center">
+                <p class="col-2" ></p>
+                <textarea style="border-radius: 35px 0px 35px 0px;" id="DENUNCIA" name="DENUNCIA" placeholder="Ingrese su Denuncia" class="form-control col-9" rows="10" ></textarea>
+
+                </div>
+            <br>
+            <div class="row align-self-center">
+                <p class="col-6"></p>
+               <input style="border-radius: 35px 35px 35px 35px;"  type="button" id="btnGuardar" class="btn btn-success col-1"   value="Enviar">
+            </div>
+            <br>
+            <div class="alert alert-success" id="exito" role="alert" style="display:none;">
+                Registro Guardado Exitosamente!
+            </div>
+            <div class="alert alert-danger" id="fallo" role="alert" style="display:none;">
+                El Registro Fallo!
+            </div>
+            <br>
+        </div>
+    </form>
+  </body>
+
+</html>
